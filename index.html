@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQIP — Sparsh Quality Intelligence Platform | Patent Filed · Singapore 2026</title>
+<meta name="description" content="SQIP governs the reasoning behind quality decisions. The first GxP Quality Reasoning Governance platform. Patent filed Singapore, April 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0A0E1A;
+    --dark: #0D1220;
+    --panel: #111827;
+    --panel-2: #141C2E;
+    --cyan: #00D4C8;
+    --cyan-dim: rgba(0,212,200,0.1);
+    --cyan-border: rgba(0,212,200,0.2);
+    --cyan-glow: rgba(0,212,200,0.06);
+    --teal: #0A6E68;
+    --white: #ffffff;
+    --muted: rgba(255,255,255,0.45);
+    --muted-2: rgba(255,255,255,0.25);
+    --line: rgba(255,255,255,0.07);
+    --line-2: rgba(255,255,255,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--black); color: white; line-height: 1.65; }
+
+  /* CRACK MOTIF — reusable */
+  .crack-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 100%; background: var(--cyan); opacity: 0.08; pointer-events: none; }
+  .crack-branch-l { position: absolute; pointer-events: none; }
+  .crack-branch-r { position: absolute; pointer-events: none; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,26,0.92);
+    border-bottom: 1px solid var(--line);
+    padding: 0 40px; height: 58px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-mark {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-brand { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: white; letter-spacing: 0.05em; }
+  .nav-brand span { color: var(--cyan); }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a { color: var(--muted); font-size: 12px; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: white; }
+  .nav-patent {
+    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
+    color: var(--cyan); font-size: 10px; padding: 3px 9px; border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .nav-cta {
+    background: var(--cyan); color: var(--black);
+    font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 7px;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* HERO */
+  .hero {
+    background: var(--black); min-height: 88vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 80px 40px 64px;
+    position: relative; overflow: hidden;
+  }
+  .hero-shield {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; opacity: 0.07;
+  }
+  .hero-crack-v { position: absolute; left: 50%; top: 0; width: 2px; height: 100%; background: var(--cyan); opacity: 0.15; transform: translateX(-50%); }
+  .hero-crack-bl { position: absolute; left: 50%; top: 45%; width: 120px; height: 1px; background: var(--cyan); opacity: 0.1; transform: rotate(25deg); transform-origin: left center; }
+  .hero-crack-br { position: absolute; left: 50%; top: 55%; width: 100px; height: 1px; background: var(--cyan); opacity: 0.08; transform: rotate(-18deg); transform-origin: left center; }
+  .hero-crack-tl { position: absolute; left: calc(50% - 80px); top: 30%; width: 80px; height: 1px; background: var(--cyan); opacity: 0.08; transform: rotate(-12deg); transform-origin: right center; }
+
+  .hero-filed {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
+    color: var(--cyan); font-size: 11px; padding: 5px 14px; border-radius: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 24px; position: relative; z-index: 1;
+  }
+  .filed-dot { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.8)} }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px; font-weight: 700; line-height: 1.15;
+    max-width: 680px; margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .hero h1 .line-2 { color: var(--cyan); display: block; }
+  .hero-sub {
+    color: var(--muted); font-size: 15px; line-height: 1.7;
+    max-width: 500px; margin-bottom: 16px;
+    position: relative; z-index: 1;
+  }
+  .hero-not {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    color: var(--muted-2); font-size: 11px; padding: 5px 14px; border-radius: 4px;
+    margin-bottom: 28px; position: relative; z-index: 1;
+    font-family: 'IBM Plex Mono', monospace; flex-wrap: wrap; text-align: center; justify-content: center;
+  }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-primary { background: var(--cyan); color: var(--black); font-size: 14px; font-weight: 600; padding: 13px 26px; border-radius: 9px; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s; display: inline-block; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-outline { background: transparent; color: white; font-size: 14px; padding: 13px 26px; border-radius: 9px; border: 1px solid var(--line-2); text-decoration: none; cursor: pointer; transition: border-color 0.2s; display: inline-block; }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.35); }
+
+  /* PROBLEM SECTION */
+  .problem { background: var(--dark); padding: 64px 40px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .problem-inner { max-width: 1100px; margin: 0 auto; }
+  .eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--cyan); font-weight: 600; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace; }
+  .section-h { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 600; color: white; margin-bottom: 10px; }
+  .section-p { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 540px; margin-bottom: 32px; }
+
+  /* LOOP VISUAL */
+  .loop-visual {
+    background: var(--panel); border: 1px solid var(--line-2);
+    border-radius: 16px; padding: 36px; margin-bottom: 32px;
+    display: flex; align-items: center; justify-content: center; gap: 40px;
+    flex-wrap: wrap;
+  }
+  .loop-text { text-align: center; }
+  .loop-text .line { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: white; line-height: 1.4; }
+  .loop-text .line.mid { color: var(--cyan); }
+  .loop-arrow { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .loop-circle { width: 80px; height: 80px; position: relative; }
+  .loop-circle svg { width: 80px; height: 80px; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .stat-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--cyan); margin-bottom: 5px; }
+  .stat-label { color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+  /* IS / IS NOT */
+  .positioning { background: var(--black); padding: 64px 40px; border-bottom: 1px solid var(--line); }
+  .pos-inner { max-width: 1100px; margin: 0 auto; }
+  .pos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+  .pos-not {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 24px;
+  }
+  .pos-is {
+    background: var(--cyan-glow); border: 1px solid var(--cyan-border);
+    border-radius: 14px; padding: 24px;
+  }
+  .pos-head { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px; font-family: 'IBM Plex Mono', monospace; }
+  .pos-not .pos-head { color: rgba(255,255,255,0.2); }
+  .pos-is .pos-head { color: var(--cyan); }
+  .pos-item { font-size: 13px; margin-bottom: 9px; display: flex; gap: 9px; align-items: flex-start; }
+  .pos-not .pos-item { color: rgba(255,255,255,0.3); }
+  .pos-is .pos-item { color: rgba(255,255,255,0.85); }
+  .pos-x { color: rgba(255,80,80,0.5); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
+  .pos-ok { color: var(--cyan); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
+
+  /* SPINE */
+  .spine { background: var(--panel-2); padding: 64px 40px; border-bottom: 1px solid var(--line); }
+  .spine-inner { max-width: 1100px; margin: 0 auto; }
+  .gates { display: flex; flex-direction: column; gap: 7px; margin-top: 24px; }
+  .gate {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.03); border: 1px solid var(--line);
+    border-radius: 9px; padding: 14px 18px;
+    transition: border-color 0.2s, background 0.2s; cursor: default;
+  }
+  .gate:hover { border-color: var(--cyan-border); background: var(--cyan-glow); }
+  .gate-n {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan); font-size: 12px; font-weight: 600;
+    font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;
+  }
+  .gate-name { color: white; font-size: 13px; font-weight: 500; min-width: 180px; }
+  .gate-desc { color: var(--muted); font-size: 12px; flex: 1; }
+  .gate-lock {
+    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
+    color: var(--cyan); font-size: 10px; padding: 2px 8px; border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;
+    margin-left: auto;
+  }
+  .gate-arrow { color: var(--line-2); font-size: 10px; flex-shrink: 0; }
+
+  /* MODULES */
+  .modules { background: var(--black); padding: 64px 40px; border-bottom: 1px solid var(--line); }
+  .modules-inner { max-width: 1100px; margin: 0 auto; }
+  .mod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
+  .mod { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+  .mod-live { background: var(--cyan-glow); border-color: var(--cyan-border); }
+  .mod-badge { display: inline-block; font-size: 9px; padding: 3px 7px; border-radius: 4px; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
+  .mod-live .mod-badge { background: var(--cyan); color: var(--black); }
+  .mod .mod-badge { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); }
+  .mod-name { color: white; font-size: 14px; font-weight: 600; margin-bottom: 5px; font-family: 'Syne', sans-serif; }
+  .mod-desc { color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+  /* PROOF */
+  .proof { background: var(--dark); padding: 64px 40px; border-bottom: 1px solid var(--line); }
+  .proof-inner { max-width: 1100px; margin: 0 auto; }
+  .proof-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 24px; }
+  .proof-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+  .proof-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; color: var(--cyan); margin-bottom: 6px; }
+  .proof-label { color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+  /* TWO PATHS */
+  .paths { background: var(--black); padding: 64px 40px; border-bottom: 1px solid var(--line); }
+  .paths-inner { max-width: 1100px; margin: 0 auto; }
+  .paths-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+  .path-demo {
+    background: var(--cyan-glow); border: 2px solid var(--cyan-border);
+    border-radius: 16px; padding: 28px;
+  }
+  .path-partner {
+    background: rgba(255,255,255,0.02); border: 1px solid var(--line-2);
+    border-radius: 16px; padding: 28px;
+  }
+  .path-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace; }
+  .path-demo .path-eyebrow { color: var(--cyan); }
+  .path-partner .path-eyebrow { color: var(--muted-2); }
+  .path-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600; color: white; margin-bottom: 10px; }
+  .path-desc { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 16px; }
+  .path-items { margin-bottom: 20px; }
+  .path-item { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 7px; display: flex; gap: 8px; }
+  .path-dot { color: var(--cyan); flex-shrink: 0; }
+  .btn-cyan-full { width: 100%; background: var(--cyan); color: var(--black); font-size: 13px; font-weight: 600; padding: 12px; border-radius: 9px; border: none; cursor: pointer; transition: opacity 0.2s; text-decoration: none; display: block; text-align: center; }
+  .btn-cyan-full:hover { opacity: 0.88; }
+  .btn-outline-full { width: 100%; background: transparent; color: white; font-size: 13px; padding: 12px; border-radius: 9px; border: 1px solid var(--line-2); cursor: pointer; transition: border-color 0.2s; text-decoration: none; display: block; text-align: center; }
+  .btn-outline-full:hover { border-color: rgba(255,255,255,0.3); }
+
+  /* BOOK */
+  .book { background: var(--panel-2); padding: 48px 40px; border-bottom: 1px solid var(--line); }
+  .book-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 24px; align-items: center; }
+  .book-cover {
+    width: 64px; height: 80px; flex-shrink: 0;
+    background: var(--cyan-glow); border: 1px solid var(--cyan-border);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  }
+  .book-title { color: white; font-size: 15px; font-weight: 600; margin-bottom: 5px; font-family: 'Syne', sans-serif; }
+  .book-sub { color: var(--muted); font-size: 12px; line-height: 1.6; max-width: 540px; }
+  .book-tag {
+    display: inline-block; margin-top: 8px;
+    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
+    color: var(--cyan); font-size: 10px; padding: 3px 10px; border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* SPARSH LINK */
+  .sparsh-link { background: rgba(27,47,94,0.4); border-top: 1px solid rgba(45,45,181,0.2); border-bottom: 1px solid rgba(45,45,181,0.2); padding: 20px 40px; }
+  .sparsh-link-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .sparsh-link-text { color: rgba(255,255,255,0.5); font-size: 13px; }
+  .sparsh-link-text a { color: #6B9EFF; text-decoration: none; }
+  .sparsh-link-btn { background: rgba(45,45,181,0.3); border: 1px solid rgba(45,45,181,0.4); color: white; font-size: 12px; padding: 8px 16px; border-radius: 7px; text-decoration: none; transition: background 0.2s; }
+  .sparsh-link-btn:hover { background: rgba(45,45,181,0.5); }
+
+  /* FOOTER */
+  footer { background: var(--dark); padding: 32px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; margin-bottom: 24px; }
+  .footer-brand { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: white; }
+  .footer-brand span { color: var(--cyan); }
+  .footer-brand-sub { color: rgba(255,255,255,0.3); font-size: 11px; margin-top: 4px; }
+  .footer-patent { font-family: 'IBM Plex Mono', monospace; color: var(--cyan); font-size: 11px; margin-top: 6px; }
+  .footer-links { display: flex; gap: 40px; }
+  .footer-col h5 { color: rgba(255,255,255,0.3); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .footer-col a { display: block; color: rgba(255,255,255,0.5); font-size: 12px; margin-bottom: 6px; text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: white; }
+  .footer-bottom { border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer-bottom p { color: rgba(255,255,255,0.2); font-size: 11px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 60px 20px 48px; min-height: auto; }
+    .hero h1 { font-size: 30px; }
+    .pos-grid, .paths-grid { grid-template-columns: 1fr; }
+    .mod-grid { grid-template-columns: 1fr 1fr; }
+    .proof-grid { grid-template-columns: 1fr 1fr; }
+    .stats-row { grid-template-columns: 1fr; }
+    .problem, .positioning, .spine, .modules, .proof, .paths, .book { padding: 48px 20px; }
+    .footer-links { display: none; }
+    .gate-desc { display: none; }
+  }
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 24px; }
+    .mod-grid { grid-template-columns: 1fr; }
+    .proof-grid { grid-template-columns: 1fr; }
+    .book-inner { flex-direction: column; }
+  }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero > * { animation: fadeUp 0.7s ease both; }
+  .hero > *:nth-child(2) { animation-delay: 0.1s; }
+  .hero > *:nth-child(3) { animation-delay: 0.2s; }
+  .hero > *:nth-child(4) { animation-delay: 0.3s; }
+  .hero > *:nth-child(5) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="3" stroke="#00D4C8" stroke-width="1.2"/><path d="M4 8.5l3 3L12 5" stroke="#00D4C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="nav-brand">SQ<span>IP</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#platform">Platform</a>
+    <a href="#modules">Modules</a>
+    <a href="#proof">Evidence</a>
+    <a href="#paths">Get Involved</a>
+    <a href="sparsh_website.html">Sparsh Consulting</a>
+    <span class="nav-patent">Patent Filed · SG 2026</span>
+  </div>
+  <a href="#paths" class="nav-cta">Request Demo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-shield">
+    <svg width="400" height="500" viewBox="0 0 400 500" fill="none">
+      <path d="M200 20L360 80V240C360 340 280 430 200 470C120 430 40 340 40 240V80L200 20Z" stroke="white" stroke-width="1.5" fill="none"/>
+      <path d="M200 60L320 110V240C320 320 260 395 200 425C140 395 80 320 80 240V110L200 60Z" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="hero-crack-v"></div>
+  <div class="hero-crack-bl"></div>
+  <div class="hero-crack-br"></div>
+  <div class="hero-crack-tl"></div>
+
+  <div class="hero-filed">
+    <div class="filed-dot"></div>
+    Patent Filed · Singapore · April 2026 · PCT Pending
+  </div>
+
+  <h1>
+    Quality systems record what happened.
+    <span class="line-2">SQIP governs how the reasoning got there.</span>
+  </h1>
+
+  <p class="hero-sub">The first GxP Quality Reasoning Governance platform. Enforces step-locked, sequential reasoning across investigations — not as a suggestion, as a constraint.</p>
+
+  <div class="hero-not">
+    Not a workflow tool &nbsp;·&nbsp; Not an eQMS &nbsp;·&nbsp; Not automation &nbsp;·&nbsp; Not a decision-maker &nbsp;·&nbsp; Not a replacement for your QA team
+  </div>
+
+  <div class="hero-actions">
+    <a href="#paths" class="btn-primary">Request a Demo</a>
+    <a href="#paths" class="btn-outline">Join as Design Partner</a>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="platform">
+  <div class="problem-inner">
+    <div class="eyebrow">The problem</div>
+    <div class="section-h">Every repeat finding is evidence the previous CAPA was wrong.</div>
+    <p class="section-p">Current quality systems record that a CAPA was completed. None evaluate whether the reasoning that produced it was correct. That gap is why the same finding recurs, inspection after inspection.</p>
+
+    <div class="loop-visual">
+      <div>
+        <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+          <path d="M45 10 A35 35 0 1 1 10 45" stroke="#00D4C8" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <polygon points="7,38 13,51 19,40" fill="#00D4C8"/>
+          <path d="M45 90 A35 35 0 1 1 80 45" stroke="#00D4C8" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <polygon points="83,52 77,39 71,50" fill="#00D4C8"/>
+        </svg>
+      </div>
+      <div class="loop-text">
+        <div class="line">Same finding.</div>
+        <div class="line mid">New CAPA.</div>
+        <div class="line">Same finding.</div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">14/20</div>
+        <div class="stat-label">proof-of-concept investigations had a prior closed CAPA that did not address the actual causal mechanism</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">7</div>
+        <div class="stat-label">distinct root cause rejection classes identified — none detectable by any existing eQMS platform</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$60M+</div>
+        <div class="stat-label">minimum cost of one FDA Warning Letter — preventable by one correctly governed investigation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IS / IS NOT -->
+<section class="positioning">
+  <div class="pos-inner">
+    <div class="eyebrow">Positioning</div>
+    <div class="section-h">A new category. Quality reasoning governance.</div>
+    <div class="pos-grid">
+      <div class="pos-not">
+        <div class="pos-head">SQIP does not replace</div>
+        <div class="pos-item"><span class="pos-x">✕</span>Your eQMS — Veeva, TrackWise, MasterControl</div>
+        <div class="pos-item"><span class="pos-x">✕</span>Your RBQM or risk monitoring platform</div>
+        <div class="pos-item"><span class="pos-x">✕</span>Your QA team or regulatory consultants</div>
+        <div class="pos-item"><span class="pos-x">✕</span>Regulatory decision-making authority</div>
+        <div class="pos-item"><span class="pos-x">✕</span>Human accountability — ever</div>
+      </div>
+      <div class="pos-is">
+        <div class="pos-head">SQIP enforces</div>
+        <div class="pos-item"><span class="pos-ok">✓</span>Step-locked reasoning before any CAPA can proceed</div>
+        <div class="pos-item"><span class="pos-ok">✓</span>Causal alignment between root cause and corrective action</div>
+        <div class="pos-item"><span class="pos-ok">✓</span>Evidence closure before conclusions are formed</div>
+        <div class="pos-item"><span class="pos-ok">✓</span>Organisational learning signals from repeated failure patterns</div>
+        <div class="pos-item"><span class="pos-ok">✓</span>A permanent, auditable reasoning record</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPINE -->
+<section class="spine">
+  <div class="spine-inner">
+    <div class="eyebrow">The reasoning spine</div>
+    <div class="section-h">7 gates. No bypass. No override. No exceptions.</div>
+    <p class="section-p">Every investigation must pass all seven gates in sequence. No stage can be skipped, conditionally approved, or manually overridden.</p>
+    <div class="gates">
+      <div class="gate"><div class="gate-n">01</div><div class="gate-name">Event ingestion</div><div class="gate-desc">Structured event capture with input quality classification and completeness verification</div><div class="gate-lock">GATE</div></div>
+      <div class="gate"><div class="gate-n">02</div><div class="gate-name">Repetition signal</div><div class="gate-desc">Prior occurrence detection independent of the eQMS — identifies recurrence before investigation begins</div><div class="gate-lock">GATE</div></div>
+      <div class="gate"><div class="gate-n">03</div><div class="gate-name">Control adequacy</div><div class="gate-desc">Assessment of existing controls before root cause work is permitted to commence</div><div class="gate-lock">GATE</div></div>
+      <div class="gate"><div class="gate-n">04</div><div class="gate-name">Causal pathway</div><div class="gate-desc">Five integrated frameworks: 5 Whys, Ishikawa, FTA, Barrier Analysis, Change Analysis — applied simultaneously</div><div class="gate-lock">GATE</div></div>
+      <div class="gate"><div class="gate-n">05</div><div class="gate-name">Root cause declaration</div><div class="gate-desc">R1–R7 rejection taxonomy enforced — prohibited labels blocked regardless of accompanying text</div><div class="gate-lock">GATE</div></div>
+      <div class="gate"><div class="gate-n">06</div><div class="gate-name">CAPA alignment</div><div class="gate-desc">Causal logic verified between the declared root cause and proposed corrective action — binary result</div><div class="gate-lock">GATE</div></div>
+      <div class="gate"><div class="gate-n">07</div><div class="gate-name">Effectiveness signal</div><div class="gate-desc">Organisational learning record generated, locked, and made available for pattern detection</div><div class="gate-lock">GATE</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section class="modules" id="modules">
+  <div class="modules-inner">
+    <div class="eyebrow">Platform modules</div>
+    <div class="section-h">Three live. Three building.</div>
+    <p class="section-p">Built by Sparsh Strategic Consulting — grounded in 25 years of GxP reasoning expertise. Each module is a standalone governance layer above your existing systems.</p>
+    <div class="mod-grid">
+      <div class="mod mod-live"><div class="mod-badge">Live</div><div class="mod-name">SQIP RCA</div><div class="mod-desc">7-gate reasoning spine. PDF investigation report on completion. Operates above any eQMS.</div></div>
+      <div class="mod mod-live"><div class="mod-badge">Live</div><div class="mod-name">SQIP Inspect</div><div class="mod-desc">6-gate inspection readiness engine. Risk scoring and prioritised action plan output.</div></div>
+      <div class="mod mod-live"><div class="mod-badge">Live</div><div class="mod-name">SQIP CAPA</div><div class="mod-desc">5-gate CAPA governance. Accepts root cause directly from SQIP RCA — full chain enforced.</div></div>
+      <div class="mod"><div class="mod-badge">Building</div><div class="mod-name">SQIP Risk</div><div class="mod-desc">Proactive quality risk detection and systemic pattern surfacing.</div></div>
+      <div class="mod"><div class="mod-badge">Building</div><div class="mod-name">SQIP Oversight</div><div class="mod-desc">Vendor and investigator site governance layer.</div></div>
+      <div class="mod"><div class="mod-badge">Roadmap</div><div class="mod-name">SQIP Memory</div><div class="mod-desc">Organisational learning intelligence — persistent pattern detection across investigations.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof" id="proof">
+  <div class="proof-inner">
+    <div class="eyebrow">Proof of concept</div>
+    <div class="section-h">20 investigations. One consistent finding.</div>
+    <p class="section-p">Across GCP, GVP, GMP, and GLP/GCLP — 5 cases each — tested across strong, moderate, weak, and biased input quality levels.</p>
+    <div class="proof-grid">
+      <div class="proof-card"><div class="proof-num">20/20</div><div class="proof-label">Cases showed system design failure at root — not human error as the prior record stated</div></div>
+      <div class="proof-card"><div class="proof-num">14/20</div><div class="proof-label">Had a prior closed CAPA that SQIP determined had not addressed the actual causal mechanism</div></div>
+      <div class="proof-card"><div class="proof-num">0</div><div class="proof-label">Direct competitors identified in global market analysis — no platform currently governs reasoning quality in GxP</div></div>
+      <div class="proof-card"><div class="proof-num">GCP · GVP · GMP · GLP</div><div class="proof-label">All four major GxP domains covered across 20 proof-of-concept investigations with varied input quality</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PATHS -->
+<section class="paths" id="paths">
+  <div class="paths-inner">
+    <div class="eyebrow">Get involved</div>
+    <div class="section-h">Two ways to engage with SQIP now.</div>
+    <div class="paths-grid">
+      <div class="path-demo">
+        <div class="path-eyebrow">For QA directors and heads of quality</div>
+        <div class="path-title">Request a platform demo</div>
+        <div class="path-desc">See a live investigation run through the 7-gate reasoning spine. Bring a real scenario from your organisation. No software commitment required.</div>
+        <div class="path-items">
+          <div class="path-item"><span class="path-dot">·</span>60-minute structured demonstration</div>
+          <div class="path-item"><span class="path-dot">·</span>Live case through RCA + CAPA governance chain</div>
+          <div class="path-item"><span class="path-dot">·</span>PDF investigation report generated live</div>
+          <div class="path-item"><span class="path-dot">·</span>No commitment required</div>
+        </div>
+        <a href="mailto:info@sparsh.sg?subject=SQIP Demo Request" class="btn-cyan-full">Book a demo session →</a>
+      </div>
+      <div class="path-partner">
+        <div class="path-eyebrow">For CROs, pharma QA teams, and investors</div>
+        <div class="path-title">Join as a design partner</div>
+        <div class="path-desc">Work with Sparsh to validate SQIP against your real anonymised quality data. Shape the platform from the inside. Co-author the proof point.</div>
+        <div class="path-items">
+          <div class="path-item"><span class="path-dot">·</span>Shadow pilot using your historical anonymised data</div>
+          <div class="path-item"><span class="path-dot">·</span>Co-authored case study for your organisation</div>
+          <div class="path-item"><span class="path-dot">·</span>Priority access to all new modules</div>
+          <div class="path-item"><span class="path-dot">·</span>Governed under mutual NDA and data agreement</div>
+        </div>
+        <a href="mailto:info@sparsh.sg?subject=SQIP Design Partner Application" class="btn-outline-full">Apply as design partner →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<div class="book">
+  <div class="book-inner">
+    <div class="book-cover">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 5h18v18H5z" stroke="#00D4C8" stroke-width="1" fill="none" opacity="0.4"/><path d="M9 10h10M9 14h10M9 18h7" stroke="#00D4C8" stroke-width="1.3" stroke-linecap="round"/></svg>
+    </div>
+    <div>
+      <div class="book-title">Quiet Watchdogs: GxP Quality Assurance</div>
+      <div class="book-sub">The Unsung Heroes Safeguarding Integrity Across the Drug Development Lifecycle — by Sachin Pasumamula, Founder & CEO, Sparsh Strategic Consulting. The intellectual foundation and category manifesto behind SQIP.</div>
+      <span class="book-tag">Category manifesto · Available now</span>
+    </div>
+  </div>
+</div>
+
+<!-- SPARSH LINK -->
+<div class="sparsh-link">
+  <div class="sparsh-link-inner">
+    <span class="sparsh-link-text">SQIP is a product of <a href="sparsh_website.html">Sparsh Strategic Consulting</a> — GxP QA experts with 25+ years of global experience.</span>
+    <a href="sparsh_website.html" class="sparsh-link-btn">Visit Sparsh Consulting →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">SQ<span>IP</span></div>
+        <div class="footer-brand-sub">Sparsh Quality Intelligence Platform · A product of Sparsh Strategic Consulting</div>
+        <div class="footer-patent">Patent Filed · Singapore · April 2026 · PCT Pending</div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <a href="#platform">How it works</a>
+          <a href="#modules">Modules</a>
+          <a href="#proof">Evidence</a>
+        </div>
+        <div class="footer-col">
+          <h5>Engage</h5>
+          <a href="mailto:info@sparsh.sg?subject=SQIP Demo Request">Request Demo</a>
+          <a href="mailto:info@sparsh.sg?subject=SQIP Design Partner Application">Design Partner</a>
+          <a href="sparsh_website.html">Sparsh Consulting</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <a href="mailto:info@sparsh.sg">info@sparsh.sg</a>
+          <a href="sparsh_website.html">sparsh.sg</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Sparsh Strategic Consulting · Singapore · All rights reserved</p>
+      <p>SQIP — Sparsh Quality Intelligence Platform · Patent Protected</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
