@@ -1,573 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SQIP — Sparsh Quality Intelligence Platform | Patent Filed · Singapore 2026</title>
-<meta name="description" content="SQIP governs the reasoning behind quality decisions. The first GxP Quality Reasoning Governance platform. Patent filed Singapore, April 2026.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --black: #0A0E1A;
-    --dark: #0D1220;
-    --panel: #111827;
-    --panel-2: #141C2E;
-    --cyan: #00D4C8;
-    --cyan-dim: rgba(0,212,200,0.1);
-    --cyan-border: rgba(0,212,200,0.2);
-    --cyan-glow: rgba(0,212,200,0.06);
-    --teal: #0A6E68;
-    --white: #ffffff;
-    --muted: rgba(255,255,255,0.45);
-    --muted-2: rgba(255,255,255,0.25);
-    --line: rgba(255,255,255,0.07);
-    --line-2: rgba(255,255,255,0.12);
-  }
-
-  html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--black); color: white; line-height: 1.65; }
-
-  /* CRACK MOTIF — reusable */
-  .crack-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 100%; background: var(--cyan); opacity: 0.08; pointer-events: none; }
-  .crack-branch-l { position: absolute; pointer-events: none; }
-  .crack-branch-r { position: absolute; pointer-events: none; }
-
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(10,14,26,0.92);
-    border-bottom: 1px solid var(--line);
-    padding: 0 40px; height: 58px;
-    display: flex; align-items: center; justify-content: space-between;
-    backdrop-filter: blur(12px);
-  }
-  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-logo-mark {
-    width: 30px; height: 30px; border-radius: 8px;
-    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .nav-brand { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: white; letter-spacing: 0.05em; }
-  .nav-brand span { color: var(--cyan); }
-  .nav-links { display: flex; gap: 24px; align-items: center; }
-  .nav-links a { color: var(--muted); font-size: 12px; text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: white; }
-  .nav-patent {
-    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
-    color: var(--cyan); font-size: 10px; padding: 3px 9px; border-radius: 4px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .nav-cta {
-    background: var(--cyan); color: var(--black);
-    font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 7px;
-    text-decoration: none; transition: opacity 0.2s;
-  }
-  .nav-cta:hover { opacity: 0.88; }
-
-  /* HERO */
-  .hero {
-    background: var(--black); min-height: 88vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 80px 40px 64px;
-    position: relative; overflow: hidden;
-  }
-  .hero-shield {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    display: flex; align-items: center; justify-content: center;
-    pointer-events: none; opacity: 0.07;
-  }
-  .hero-crack-v { position: absolute; left: 50%; top: 0; width: 2px; height: 100%; background: var(--cyan); opacity: 0.15; transform: translateX(-50%); }
-  .hero-crack-bl { position: absolute; left: 50%; top: 45%; width: 120px; height: 1px; background: var(--cyan); opacity: 0.1; transform: rotate(25deg); transform-origin: left center; }
-  .hero-crack-br { position: absolute; left: 50%; top: 55%; width: 100px; height: 1px; background: var(--cyan); opacity: 0.08; transform: rotate(-18deg); transform-origin: left center; }
-  .hero-crack-tl { position: absolute; left: calc(50% - 80px); top: 30%; width: 80px; height: 1px; background: var(--cyan); opacity: 0.08; transform: rotate(-12deg); transform-origin: right center; }
-
-  .hero-filed {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
-    color: var(--cyan); font-size: 11px; padding: 5px 14px; border-radius: 20px;
-    font-family: 'IBM Plex Mono', monospace;
-    margin-bottom: 24px; position: relative; z-index: 1;
-  }
-  .filed-dot { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.8)} }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: 42px; font-weight: 700; line-height: 1.15;
-    max-width: 680px; margin-bottom: 18px;
-    position: relative; z-index: 1;
-  }
-  .hero h1 .line-2 { color: var(--cyan); display: block; }
-  .hero-sub {
-    color: var(--muted); font-size: 15px; line-height: 1.7;
-    max-width: 500px; margin-bottom: 16px;
-    position: relative; z-index: 1;
-  }
-  .hero-not {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    color: var(--muted-2); font-size: 11px; padding: 5px 14px; border-radius: 4px;
-    margin-bottom: 28px; position: relative; z-index: 1;
-    font-family: 'IBM Plex Mono', monospace; flex-wrap: wrap; text-align: center; justify-content: center;
-  }
-  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
-  .btn-primary { background: var(--cyan); color: var(--black); font-size: 14px; font-weight: 600; padding: 13px 26px; border-radius: 9px; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s; display: inline-block; }
-  .btn-primary:hover { opacity: 0.88; }
-  .btn-outline { background: transparent; color: white; font-size: 14px; padding: 13px 26px; border-radius: 9px; border: 1px solid var(--line-2); text-decoration: none; cursor: pointer; transition: border-color 0.2s; display: inline-block; }
-  .btn-outline:hover { border-color: rgba(255,255,255,0.35); }
-
-  /* PROBLEM SECTION */
-  .problem { background: var(--dark); padding: 64px 40px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .problem-inner { max-width: 1100px; margin: 0 auto; }
-  .eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--cyan); font-weight: 600; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace; }
-  .section-h { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 600; color: white; margin-bottom: 10px; }
-  .section-p { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 540px; margin-bottom: 32px; }
-
-  /* LOOP VISUAL */
-  .loop-visual {
-    background: var(--panel); border: 1px solid var(--line-2);
-    border-radius: 16px; padding: 36px; margin-bottom: 32px;
-    display: flex; align-items: center; justify-content: center; gap: 40px;
-    flex-wrap: wrap;
-  }
-  .loop-text { text-align: center; }
-  .loop-text .line { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: white; line-height: 1.4; }
-  .loop-text .line.mid { color: var(--cyan); }
-  .loop-arrow { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .loop-circle { width: 80px; height: 80px; position: relative; }
-  .loop-circle svg { width: 80px; height: 80px; }
-
-  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .stat-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
-  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--cyan); margin-bottom: 5px; }
-  .stat-label { color: var(--muted); font-size: 12px; line-height: 1.5; }
-
-  /* IS / IS NOT */
-  .positioning { background: var(--black); padding: 64px 40px; border-bottom: 1px solid var(--line); }
-  .pos-inner { max-width: 1100px; margin: 0 auto; }
-  .pos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
-  .pos-not {
-    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 14px; padding: 24px;
-  }
-  .pos-is {
-    background: var(--cyan-glow); border: 1px solid var(--cyan-border);
-    border-radius: 14px; padding: 24px;
-  }
-  .pos-head { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px; font-family: 'IBM Plex Mono', monospace; }
-  .pos-not .pos-head { color: rgba(255,255,255,0.2); }
-  .pos-is .pos-head { color: var(--cyan); }
-  .pos-item { font-size: 13px; margin-bottom: 9px; display: flex; gap: 9px; align-items: flex-start; }
-  .pos-not .pos-item { color: rgba(255,255,255,0.3); }
-  .pos-is .pos-item { color: rgba(255,255,255,0.85); }
-  .pos-x { color: rgba(255,80,80,0.5); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
-  .pos-ok { color: var(--cyan); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
-
-  /* SPINE */
-  .spine { background: var(--panel-2); padding: 64px 40px; border-bottom: 1px solid var(--line); }
-  .spine-inner { max-width: 1100px; margin: 0 auto; }
-  .gates { display: flex; flex-direction: column; gap: 7px; margin-top: 24px; }
-  .gate {
-    display: flex; align-items: center; gap: 14px;
-    background: rgba(255,255,255,0.03); border: 1px solid var(--line);
-    border-radius: 9px; padding: 14px 18px;
-    transition: border-color 0.2s, background 0.2s; cursor: default;
-  }
-  .gate:hover { border-color: var(--cyan-border); background: var(--cyan-glow); }
-  .gate-n {
-    width: 28px; height: 28px; border-radius: 6px;
-    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--cyan); font-size: 12px; font-weight: 600;
-    font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;
-  }
-  .gate-name { color: white; font-size: 13px; font-weight: 500; min-width: 180px; }
-  .gate-desc { color: var(--muted); font-size: 12px; flex: 1; }
-  .gate-lock {
-    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
-    color: var(--cyan); font-size: 10px; padding: 2px 8px; border-radius: 4px;
-    font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;
-    margin-left: auto;
-  }
-  .gate-arrow { color: var(--line-2); font-size: 10px; flex-shrink: 0; }
-
-  /* MODULES */
-  .modules { background: var(--black); padding: 64px 40px; border-bottom: 1px solid var(--line); }
-  .modules-inner { max-width: 1100px; margin: 0 auto; }
-  .mod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
-  .mod { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
-  .mod-live { background: var(--cyan-glow); border-color: var(--cyan-border); }
-  .mod-badge { display: inline-block; font-size: 9px; padding: 3px 7px; border-radius: 4px; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
-  .mod-live .mod-badge { background: var(--cyan); color: var(--black); }
-  .mod .mod-badge { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); }
-  .mod-name { color: white; font-size: 14px; font-weight: 600; margin-bottom: 5px; font-family: 'Syne', sans-serif; }
-  .mod-desc { color: var(--muted); font-size: 12px; line-height: 1.5; }
-
-  /* PROOF */
-  .proof { background: var(--dark); padding: 64px 40px; border-bottom: 1px solid var(--line); }
-  .proof-inner { max-width: 1100px; margin: 0 auto; }
-  .proof-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 24px; }
-  .proof-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
-  .proof-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; color: var(--cyan); margin-bottom: 6px; }
-  .proof-label { color: var(--muted); font-size: 12px; line-height: 1.6; }
-
-  /* TWO PATHS */
-  .paths { background: var(--black); padding: 64px 40px; border-bottom: 1px solid var(--line); }
-  .paths-inner { max-width: 1100px; margin: 0 auto; }
-  .paths-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
-  .path-demo {
-    background: var(--cyan-glow); border: 2px solid var(--cyan-border);
-    border-radius: 16px; padding: 28px;
-  }
-  .path-partner {
-    background: rgba(255,255,255,0.02); border: 1px solid var(--line-2);
-    border-radius: 16px; padding: 28px;
-  }
-  .path-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace; }
-  .path-demo .path-eyebrow { color: var(--cyan); }
-  .path-partner .path-eyebrow { color: var(--muted-2); }
-  .path-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600; color: white; margin-bottom: 10px; }
-  .path-desc { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 16px; }
-  .path-items { margin-bottom: 20px; }
-  .path-item { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 7px; display: flex; gap: 8px; }
-  .path-dot { color: var(--cyan); flex-shrink: 0; }
-  .btn-cyan-full { width: 100%; background: var(--cyan); color: var(--black); font-size: 13px; font-weight: 600; padding: 12px; border-radius: 9px; border: none; cursor: pointer; transition: opacity 0.2s; text-decoration: none; display: block; text-align: center; }
-  .btn-cyan-full:hover { opacity: 0.88; }
-  .btn-outline-full { width: 100%; background: transparent; color: white; font-size: 13px; padding: 12px; border-radius: 9px; border: 1px solid var(--line-2); cursor: pointer; transition: border-color 0.2s; text-decoration: none; display: block; text-align: center; }
-  .btn-outline-full:hover { border-color: rgba(255,255,255,0.3); }
-
-  /* BOOK */
-  .book { background: var(--panel-2); padding: 48px 40px; border-bottom: 1px solid var(--line); }
-  .book-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 24px; align-items: center; }
-  .book-cover {
-    width: 64px; height: 80px; flex-shrink: 0;
-    background: var(--cyan-glow); border: 1px solid var(--cyan-border);
-    border-radius: 6px; display: flex; align-items: center; justify-content: center;
-  }
-  .book-title { color: white; font-size: 15px; font-weight: 600; margin-bottom: 5px; font-family: 'Syne', sans-serif; }
-  .book-sub { color: var(--muted); font-size: 12px; line-height: 1.6; max-width: 540px; }
-  .book-tag {
-    display: inline-block; margin-top: 8px;
-    background: var(--cyan-dim); border: 1px solid var(--cyan-border);
-    color: var(--cyan); font-size: 10px; padding: 3px 10px; border-radius: 4px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
-  /* SPARSH LINK */
-  .sparsh-link { background: rgba(27,47,94,0.4); border-top: 1px solid rgba(45,45,181,0.2); border-bottom: 1px solid rgba(45,45,181,0.2); padding: 20px 40px; }
-  .sparsh-link-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-  .sparsh-link-text { color: rgba(255,255,255,0.5); font-size: 13px; }
-  .sparsh-link-text a { color: #6B9EFF; text-decoration: none; }
-  .sparsh-link-btn { background: rgba(45,45,181,0.3); border: 1px solid rgba(45,45,181,0.4); color: white; font-size: 12px; padding: 8px 16px; border-radius: 7px; text-decoration: none; transition: background 0.2s; }
-  .sparsh-link-btn:hover { background: rgba(45,45,181,0.5); }
-
-  /* FOOTER */
-  footer { background: var(--dark); padding: 32px 40px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; margin-bottom: 24px; }
-  .footer-brand { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: white; }
-  .footer-brand span { color: var(--cyan); }
-  .footer-brand-sub { color: rgba(255,255,255,0.3); font-size: 11px; margin-top: 4px; }
-  .footer-patent { font-family: 'IBM Plex Mono', monospace; color: var(--cyan); font-size: 11px; margin-top: 6px; }
-  .footer-links { display: flex; gap: 40px; }
-  .footer-col h5 { color: rgba(255,255,255,0.3); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
-  .footer-col a { display: block; color: rgba(255,255,255,0.5); font-size: 12px; margin-bottom: 6px; text-decoration: none; transition: color 0.2s; }
-  .footer-col a:hover { color: white; }
-  .footer-bottom { border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .footer-bottom p { color: rgba(255,255,255,0.2); font-size: 11px; }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    .hero { padding: 60px 20px 48px; min-height: auto; }
-    .hero h1 { font-size: 30px; }
-    .pos-grid, .paths-grid { grid-template-columns: 1fr; }
-    .mod-grid { grid-template-columns: 1fr 1fr; }
-    .proof-grid { grid-template-columns: 1fr 1fr; }
-    .stats-row { grid-template-columns: 1fr; }
-    .problem, .positioning, .spine, .modules, .proof, .paths, .book { padding: 48px 20px; }
-    .footer-links { display: none; }
-    .gate-desc { display: none; }
-  }
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 24px; }
-    .mod-grid { grid-template-columns: 1fr; }
-    .proof-grid { grid-template-columns: 1fr; }
-    .book-inner { flex-direction: column; }
-  }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .hero > * { animation: fadeUp 0.7s ease both; }
-  .hero > *:nth-child(2) { animation-delay: 0.1s; }
-  .hero > *:nth-child(3) { animation-delay: 0.2s; }
-  .hero > *:nth-child(4) { animation-delay: 0.3s; }
-  .hero > *:nth-child(5) { animation-delay: 0.4s; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQIP — Sparsh Quality Intelligence Platform</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background-color: #0A1931;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 560px;
+      padding: 48px 32px;
+      text-align: center;
+    }
+    .logo {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .tagline {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #1A6B7C;
+      margin-bottom: 40px;
+    }
+    .divider {
+      width: 48px;
+      height: 2px;
+      background-color: #1A6B7C;
+      margin: 0 auto 36px;
+    }
+    .message {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #C8D8E0;
+      margin-bottom: 36px;
+    }
+    .contact {
+      font-size: 14px;
+      color: #C8D8E0;
+      margin-bottom: 8px;
+    }
+    .contact a {
+      color: #32B4C8;
+      text-decoration: none;
+    }
+    .contact a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      margin-top: 48px;
+      font-size: 12px;
+      color: #4A6070;
+      letter-spacing: 0.04em;
+    }
+  </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">
-    <img src="data:image/png;base64,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" alt="SQIP" style="height:96px;width:auto;border-radius:6px;">
-  </a>
-  <div class="nav-links">
-    <a href="#platform">Platform</a>
-    <a href="#modules">Modules</a>
-    <a href="#proof">Evidence</a>
-    <a href="#paths">Get Involved</a>
-    <a href="https://sparsh.sg" target="_blank" rel="noopener">Sparsh Consulting</a>
-    <span class="nav-patent">Patent Filed · SG 2026</span>
+  <div class="container">
+    <div class="logo">SQIP</div>
+    <div class="tagline">Sparsh Quality Intelligence Platform</div>
+    <div class="divider"></div>
+    <p class="message">
+      The SQIP platform is patent-pending. Public technical content has been
+      temporarily withdrawn pending completion of international patent filing.
+    </p>
+    <p class="contact">
+      For partnership, design partner, or commercial enquiries, please contact:<br>
+      <a href="mailto:info@sparsh.sg">info@sparsh.sg</a>
+    </p>
+    <div class="footer">Sparsh Strategic Consulting Pte. Ltd. &nbsp;|&nbsp; Singapore</div>
   </div>
-  <a href="#paths" class="nav-cta">Request Demo</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-shield">
-    <svg width="400" height="500" viewBox="0 0 400 500" fill="none">
-      <path d="M200 20L360 80V240C360 340 280 430 200 470C120 430 40 340 40 240V80L200 20Z" stroke="white" stroke-width="1.5" fill="none"/>
-      <path d="M200 60L320 110V240C320 320 260 395 200 425C140 395 80 320 80 240V110L200 60Z" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
-    </svg>
-  </div>
-  <div class="hero-crack-v"></div>
-  <div class="hero-crack-bl"></div>
-  <div class="hero-crack-br"></div>
-  <div class="hero-crack-tl"></div>
-
-  <div class="hero-filed">
-    <div class="filed-dot"></div>
-    Patent Filed · Singapore · April 2026 · PCT Filing in Progress · 2026
-  </div>
-
-  <h1>
-    Quality systems record what happened.
-    <span class="line-2">SQIP governs how the reasoning got there.</span>
-  </h1>
-
-  <p class="hero-sub">The first GxP Quality Reasoning Governance platform. Enforces step-locked, sequential reasoning across investigations — not as a suggestion, as a constraint.</p>
-
-  <div class="hero-not">
-    Not a workflow tool &nbsp;·&nbsp; Not an eQMS &nbsp;·&nbsp; Not automation &nbsp;·&nbsp; Not a decision-maker &nbsp;·&nbsp; Not a replacement for your QA team
-  </div>
-
-  <div class="hero-actions">
-    <a href="#paths" class="btn-primary">Request a Demo</a>
-    <a href="#paths" class="btn-outline">Join as Design Partner</a>
-  </div>
-</section>
-
-<!-- PROBLEM -->
-<section class="problem" id="platform">
-  <div class="problem-inner">
-    <div class="eyebrow">The problem</div>
-    <div class="section-h">Every repeat finding is evidence the previous CAPA was wrong.</div>
-    <p class="section-p">Current quality systems record that a CAPA was completed. None evaluate whether the reasoning that produced it was correct. That gap is why the same finding recurs, inspection after inspection.</p>
-
-    <div class="loop-visual">
-      <div>
-        <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
-          <path d="M45 10 A35 35 0 1 1 10 45" stroke="#00D4C8" stroke-width="6" stroke-linecap="round" fill="none"/>
-          <polygon points="7,38 13,51 19,40" fill="#00D4C8"/>
-          <path d="M45 90 A35 35 0 1 1 80 45" stroke="#00D4C8" stroke-width="6" stroke-linecap="round" fill="none"/>
-          <polygon points="83,52 77,39 71,50" fill="#00D4C8"/>
-        </svg>
-      </div>
-      <div class="loop-text">
-        <div class="line">Same finding.</div>
-        <div class="line mid">New CAPA.</div>
-        <div class="line">Same finding.</div>
-      </div>
-    </div>
-
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-num">14/20</div>
-        <div class="stat-label">proof-of-concept investigations had a prior closed CAPA that did not address the actual causal mechanism</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">7</div>
-        <div class="stat-label">distinct root cause rejection classes identified — none detectable by any existing eQMS platform</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">$60M+</div>
-        <div class="stat-label">minimum cost of one FDA Warning Letter — preventable by one correctly governed investigation <span style="opacity:0.5;font-size:10px;">(FDA enforcement cost estimates, 2020–2024)</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- IS / IS NOT -->
-<section class="positioning">
-  <div class="pos-inner">
-    <div class="eyebrow">Positioning</div>
-    <div class="section-h">A new category. Quality reasoning governance.</div>
-    <div class="pos-grid">
-      <div class="pos-not">
-        <div class="pos-head">SQIP does not replace</div>
-        <div class="pos-item"><span class="pos-x">✕</span>Your eQMS — Veeva, TrackWise, MasterControl</div>
-        <div class="pos-item"><span class="pos-x">✕</span>Your RBQM or risk monitoring platform</div>
-        <div class="pos-item"><span class="pos-x">✕</span>Your QA team or regulatory consultants</div>
-        <div class="pos-item"><span class="pos-x">✕</span>Regulatory decision-making authority</div>
-        <div class="pos-item"><span class="pos-x">✕</span>Human accountability — ever</div>
-      </div>
-      <div class="pos-is">
-        <div class="pos-head">SQIP enforces</div>
-        <div class="pos-item"><span class="pos-ok">✓</span>Step-locked reasoning before any CAPA can proceed</div>
-        <div class="pos-item"><span class="pos-ok">✓</span>Causal alignment between root cause and corrective action</div>
-        <div class="pos-item"><span class="pos-ok">✓</span>Evidence closure before conclusions are formed</div>
-        <div class="pos-item"><span class="pos-ok">✓</span>Organisational learning signals from repeated failure patterns</div>
-        <div class="pos-item"><span class="pos-ok">✓</span>A permanent, auditable reasoning record</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SPINE -->
-<section class="spine">
-  <div class="spine-inner">
-    <div class="eyebrow">The reasoning spine</div>
-    <div class="section-h">7 gates. No bypass. No override. No exceptions.</div>
-    <p class="section-p">Every investigation must pass all seven gates in sequence. No stage can be skipped, conditionally approved, or manually overridden.</p>
-    <div class="gates">
-      <div class="gate"><div class="gate-n">01</div><div class="gate-name">Event ingestion</div><div class="gate-desc">Structured event capture with input quality classification and completeness verification</div><div class="gate-lock">GATE</div></div>
-      <div class="gate"><div class="gate-n">02</div><div class="gate-name">Repetition signal</div><div class="gate-desc">Prior occurrence detection independent of the eQMS — identifies recurrence before investigation begins</div><div class="gate-lock">GATE</div></div>
-      <div class="gate"><div class="gate-n">03</div><div class="gate-name">Control adequacy</div><div class="gate-desc">Assessment of existing controls before root cause work is permitted to commence</div><div class="gate-lock">GATE</div></div>
-      <div class="gate"><div class="gate-n">04</div><div class="gate-name">Causal pathway</div><div class="gate-desc">Five integrated frameworks: 5 Whys, Ishikawa, FTA, Barrier Analysis, Change Analysis — applied simultaneously</div><div class="gate-lock">GATE</div></div>
-      <div class="gate"><div class="gate-n">05</div><div class="gate-name">Root cause declaration</div><div class="gate-desc">R1–R7 rejection taxonomy enforced — seven prohibited root cause labels including blame attribution, human error, and training gaps are structurally blocked regardless of accompanying text</div><div class="gate-lock">GATE</div></div>
-      <div class="gate"><div class="gate-n">06</div><div class="gate-name">CAPA alignment</div><div class="gate-desc">Causal logic verified between the declared root cause and proposed corrective action — binary result</div><div class="gate-lock">GATE</div></div>
-      <div class="gate"><div class="gate-n">07</div><div class="gate-name">Effectiveness signal</div><div class="gate-desc">Organisational learning record generated, locked, and made available for pattern detection</div><div class="gate-lock">GATE</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- MODULES -->
-<section class="modules" id="modules">
-  <div class="modules-inner">
-    <div class="eyebrow">Platform modules</div>
-    <div class="section-h">Three live. Two building. One on the roadmap.</div>
-    <p class="section-p">Built by Sparsh Strategic Consulting — grounded in 25 years of GxP reasoning expertise. Each module is a standalone governance layer above your existing systems.</p>
-    <div class="mod-grid">
-      <div class="mod mod-live"><div class="mod-badge">Live</div><div class="mod-name">SQIP RCA</div><div class="mod-desc">Enforces the 7-gate Causal Reasoning Spine across every quality investigation. Applies five integrated RCA frameworks simultaneously and produces a structured, inspection-ready PDF investigation report on gate completion.</div></div>
-      <div class="mod mod-live"><div class="mod-badge">Live</div><div class="mod-name">SQIP Inspect</div><div class="mod-desc">Evaluates organisational inspection readiness across six structured gates covering CAPA vulnerability, documentation integrity, and systemic risk. Produces a scored readiness report with a prioritised action plan.</div></div>
-      <div class="mod mod-live"><div class="mod-badge">Live</div><div class="mod-name">SQIP CAPA</div><div class="mod-desc">Governs CAPA logic through five sequential gates, validating causal alignment between root cause and corrective action. Accepts root cause output directly from SQIP RCA, enforcing an unbroken reasoning chain from investigation to closure.</div></div>
-      <div class="mod"><div class="mod-badge">Building</div><div class="mod-name">SQIP Risk</div><div class="mod-desc">Surfaces proactive quality risk signals by analysing patterns across investigations, CAPAs, and deviation histories. Produces a risk register with reasoning-based severity classifications rather than scoring alone.</div></div>
-      <div class="mod"><div class="mod-badge">Building</div><div class="mod-name">SQIP Oversight</div><div class="mod-desc">Applies reasoning governance to vendor qualification and investigator site oversight. Enforces structured due diligence logic and produces auditable oversight records aligned to GCP and GDP requirements.</div></div>
-      <div class="mod"><div class="mod-badge">Roadmap</div><div class="mod-name">SQIP Memory</div><div class="mod-desc">Captures and connects reasoning artefacts across all investigations to build persistent organisational learning intelligence. Surfaces recurring failure patterns and systemic root cause clusters that individual investigations cannot reveal.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROOF -->
-<section class="proof" id="proof">
-  <div class="proof-inner">
-    <div class="eyebrow">Proof of concept</div>
-    <div class="section-h">20 investigations. One consistent finding.</div>
-    <p class="section-p">Across GCP, GVP, GMP, and GLP/GCLP — 5 cases each — tested across strong, moderate, weak, and biased input quality levels.</p>
-    <div class="proof-grid">
-      <div class="proof-card"><div class="proof-num">20/20</div><div class="proof-label">Cases showed system design failure at root — not human error as the prior record stated</div></div>
-      <div class="proof-card"><div class="proof-num">14/20</div><div class="proof-label">Had a prior closed CAPA that SQIP determined had not addressed the actual causal mechanism</div></div>
-      <div class="proof-card"><div class="proof-num">0</div><div class="proof-label">Direct competitors identified in global market analysis — no platform currently governs reasoning quality in GxP <span style="opacity:0.5;font-size:10px;">(Global market analysis conducted April 2026 — no platform identified that governs reasoning quality rather than workflow completion)</span></div></div>
-      <div class="proof-card"><div class="proof-num">GCP · GVP · GMP · GLP</div><div class="proof-label">All four major GxP domains covered across 20 proof-of-concept investigations with varied input quality</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PATHS -->
-<section class="paths" id="paths">
-  <div class="paths-inner">
-    <div class="eyebrow">Get involved</div>
-    <div class="section-h">Two ways to engage with SQIP now.</div>
-    <div class="paths-grid">
-      <div class="path-demo">
-        <div class="path-eyebrow">For QA directors and heads of quality</div>
-        <div class="path-title">Request a platform demo</div>
-        <div class="path-desc">See a live investigation run through the 7-gate reasoning spine. Bring a real scenario from your organisation. No software commitment required.</div>
-        <div class="path-items">
-          <div class="path-item"><span class="path-dot">·</span>60-minute structured demonstration</div>
-          <div class="path-item"><span class="path-dot">·</span>Live case through RCA + CAPA governance chain</div>
-          <div class="path-item"><span class="path-dot">·</span>PDF investigation report generated live</div>
-          <div class="path-item"><span class="path-dot">·</span>No commitment required</div>
-        </div>
-        <a href="mailto:info@sparsh.sg?subject=SQIP Demo Request" class="btn-cyan-full">Book a demo session →</a>
-      </div>
-      <div class="path-partner">
-        <div class="path-eyebrow">For CROs, pharma QA teams, and investors</div>
-        <div class="path-title">Join as a design partner</div>
-        <div class="path-desc">Work with Sparsh to validate SQIP against your real anonymised quality data. Shape the platform from the inside. Co-author the proof point.</div>
-        <div class="path-items">
-          <div class="path-item"><span class="path-dot">·</span>Shadow pilot using your historical anonymised data</div>
-          <div class="path-item"><span class="path-dot">·</span>Co-authored case study for your organisation</div>
-          <div class="path-item"><span class="path-dot">·</span>Priority access to all new modules</div>
-          <div class="path-item"><span class="path-dot">·</span>Governed under mutual NDA and data agreement</div>
-        </div>
-        <a href="mailto:info@sparsh.sg?subject=SQIP Design Partner Application" class="btn-outline-full">Apply as design partner →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BOOK -->
-<div class="book">
-  <div class="book-inner">
-    <div class="book-cover">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 5h18v18H5z" stroke="#00D4C8" stroke-width="1" fill="none" opacity="0.4"/><path d="M9 10h10M9 14h10M9 18h7" stroke="#00D4C8" stroke-width="1.3" stroke-linecap="round"/></svg>
-    </div>
-    <div>
-      <div class="book-title">Quiet Watchdogs: GxP Quality Assurance</div>
-      <div class="book-sub">The Unsung Heroes Safeguarding Integrity Across the Drug Development Lifecycle — by Sachin Pasumamula, Founder & CEO, Sparsh Strategic Consulting. The intellectual foundation and category manifesto behind SQIP.</div>
-      <span class="book-tag">Category manifesto · Coming soon</span>
-    </div>
-  </div>
-</div>
-
-<!-- SPARSH LINK -->
-<div class="sparsh-link">
-  <div class="sparsh-link-inner">
-    <span class="sparsh-link-text">SQIP is a product of <a href="https://sparsh.sg">Sparsh Strategic Consulting</a> — GxP QA experts with 25+ years of global experience.</span>
-    <a href="https://sparsh.sg" target="_blank" rel="noopener" class="sparsh-link-btn">Visit Sparsh Consulting →</a>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand">SQ<span>IP</span></div>
-        <div class="footer-brand-sub">Sparsh Quality Intelligence Platform · A product of Sparsh Strategic Consulting</div>
-        <div class="footer-patent">Patent Filed · Singapore · April 2026 · PCT Filing in Progress · 2026</div>
-      </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <h5>Platform</h5>
-          <a href="#platform">How it works</a>
-          <a href="#modules">Modules</a>
-          <a href="#proof">Evidence</a>
-        </div>
-        <div class="footer-col">
-          <h5>Engage</h5>
-          <a href="mailto:info@sparsh.sg?subject=SQIP Demo Request">Request Demo</a>
-          <a href="mailto:info@sparsh.sg?subject=SQIP Design Partner Application">Design Partner</a>
-          <a href="https://sparsh.sg">Sparsh Consulting</a>
-        </div>
-        <div class="footer-col">
-          <h5>Contact</h5>
-          <a href="mailto:info@sparsh.sg">info@sparsh.sg</a>
-          <a href="https://sparsh.sg" target="_blank" rel="noopener">sparsh.sg</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 Sparsh Strategic Consulting · Singapore · All rights reserved</p>
-      <p>SQIP — Sparsh Quality Intelligence Platform · Patent Protected</p>
-    </div>
-  </div>
-</footer>
-
 </body>
 </html>
